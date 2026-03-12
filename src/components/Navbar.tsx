@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import anvarLogo from "@/assets/anvar-logo.webp";
+import anvarIcon from "@/assets/anvar-icon.webp";
 
 const navLinks = [
   { href: "#platform", label: "Platform" },
@@ -26,10 +28,7 @@ const Navbar = () => {
       >
         <div className="container mx-auto flex items-center justify-between h-20 px-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg glass-card-luxury flex items-center justify-center">
-              <span className="font-display font-bold text-champagne text-lg">A</span>
-            </div>
-            <span className="font-display font-semibold text-xl gradient-text-platinum tracking-wide">Anvar AI</span>
+            <img src={anvarLogo} alt="Anvar AI" className="h-[52px]" />
             <span className="hidden sm:inline-block text-[10px] text-muted-foreground/40 font-mono tracking-[0.15em] uppercase border-l border-border/50 pl-3 ml-1">From Intent to Execution</span>
           </div>
 
