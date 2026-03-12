@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anvar AI | Agentic Service Infrastructure</title>
+  <meta name="description" content="Anvar AI is the first Agentic Service Infrastructure platform enabling AI agents to discover, orchestrate, and execute real-world services through APIs — directly inside applications." />
+  <meta name="author" content="Anvar AI" />
+  <meta property="og:title" content="Anvar AI — Agentic Service Infrastructure" />
+  <meta property="og:description" content="The first platform enabling AI agents to discover, orchestrate, and execute real-world services through APIs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://anvar.ai" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Anvar AI — Agentic Service Infrastructure" />
+  <meta name="twitter:description" content="The first platform enabling AI agents to discover, orchestrate, and execute real-world services through APIs." />
+  <link rel="canonical" href="https://anvar.ai" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-color: hsl(0 0% 12%); }
+    :root {
+      --bg: hsl(0 0% 3%); --fg: hsl(0 0% 90%); --muted: hsl(0 0% 45%); --border: hsl(0 0% 12%);
+      --card: hsl(0 0% 6%); --silver: hsl(0 0% 72%); --platinum: hsl(40 15% 88%);
+      --gold: hsl(40 35% 65%); --champagne: hsl(38 30% 78%);
+    }
+    body { background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
+    ::selection { background: hsl(40 30% 65% / 0.3); color: hsl(0 0% 95%); }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: hsl(0 0% 18%); border-radius: 3px; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Glass cards */
+    .glass-card { background: linear-gradient(145deg, hsl(0 0% 100% / 0.05), hsl(0 0% 100% / 0.015)); backdrop-filter: blur(24px); border: 1px solid hsl(0 0% 100% / 0.07); border-radius: 0.75rem; }
+    .glass-card-strong { background: linear-gradient(145deg, hsl(0 0% 100% / 0.09), hsl(0 0% 100% / 0.025)); backdrop-filter: blur(40px); border: 1px solid hsl(40 20% 80% / 0.1); border-radius: 0.75rem; }
+    .glass-card-luxury { background: linear-gradient(145deg, hsl(40 20% 100% / 0.08), hsl(0 0% 100% / 0.02)); backdrop-filter: blur(40px); border: 1px solid hsl(40 30% 70% / 0.15); box-shadow: 0 0 0 1px hsl(40 20% 50% / 0.05), 0 8px 32px -8px hsl(0 0% 0% / 0.4), inset 0 1px 0 hsl(40 20% 90% / 0.06); border-radius: 0.75rem; }
+
+    /* Gradient texts */
+    .gradient-text-platinum { background: linear-gradient(135deg, hsl(40 15% 95%) 0%, hsl(40 10% 78%) 50%, hsl(0 0% 55%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gradient-text-shine { background: linear-gradient(90deg, hsl(40 20% 55%) 0%, hsl(40 25% 90%) 35%, hsl(0 0% 98%) 50%, hsl(40 25% 90%) 65%, hsl(40 20% 55%) 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: textShine 5s ease-in-out infinite; }
+    .gradient-text-gold { background: linear-gradient(135deg, hsl(40 40% 75%) 0%, hsl(38 35% 88%) 50%, hsl(40 30% 65%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .luxury-divider { height: 1px; background: linear-gradient(90deg, transparent 0%, hsl(40 30% 65% / 0.2) 20%, hsl(40 25% 80% / 0.3) 50%, hsl(40 30% 65% / 0.2) 80%, transparent 100%); }
+    .glow-soft { box-shadow: 0 0 80px -20px hsl(0 0% 100% / 0.06), 0 0 30px -10px hsl(40 20% 70% / 0.04); }
+    .glow-silver { box-shadow: 0 0 60px -15px hsl(0 0% 80% / 0.12), 0 0 20px -5px hsl(40 20% 70% / 0.08); }
+
+    /* Card hover */
+    .card-hover { position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; background: linear-gradient(135deg, hsl(40 30% 65% / 0.2), transparent 40%, transparent 60%, hsl(40 25% 75% / 0.15)); opacity: 0; transition: opacity 0.5s ease; z-index: -1; pointer-events: none; }
+    .card-hover:hover::before { opacity: 1; }
+    .card-hover:hover { border-color: hsl(40 25% 70% / 0.2); box-shadow: 0 8px 32px -8px hsl(0 0% 0% / 0.5), 0 0 40px -15px hsl(40 30% 65% / 0.1); }
+
+    /* Animations */
+    @keyframes textShine { 0%, 100% { background-position: 200% center; } 50% { background-position: 0% center; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes luxuryPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes nodePulse { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.1); } }
+
+    .animate-blink { animation: blink 1s step-end infinite; }
+    .animate-luxury-pulse { animation: luxuryPulse 3s ease-in-out infinite; }
+    .animate-spin { animation: spin 1s linear infinite; }
+    .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
+
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Navbar */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; backdrop-filter: blur(40px); background: linear-gradient(180deg, hsl(0 0% 3% / 0.85), hsl(0 0% 3% / 0.7)); border-bottom: 1px solid hsl(40 20% 50% / 0.08); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 5rem; }
+    .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-logo { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--champagne); font-size: 1.125rem; }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; font-size: 0.875rem; color: var(--muted); }
+    .nav-links a:hover { color: var(--champagne); transition: color 0.5s; }
+    .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+    .nav-motto { display: inline-block; font-size: 10px; color: hsl(0 0% 45% / 0.4); letter-spacing: 0.15em; text-transform: uppercase; border-left: 1px solid hsl(0 0% 12% / 0.5); padding-left: 0.75rem; margin-left: 0.25rem; }
+    .btn-investors { padding: 0.625rem 1.5rem; font-size: 0.875rem; font-weight: 500; color: var(--champagne); letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.5s; }
+    .btn-investors:hover { color: var(--fg); }
+
+    /* Mobile menu */
+    .mobile-menu-btn { display: none; width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; align-items: center; justify-content: center; color: var(--champagne); background: none; border: none; cursor: pointer; }
+    .mobile-menu { display: none; position: fixed; inset: 5rem 0 auto 0; z-index: 40; backdrop-filter: blur(40px); background: linear-gradient(180deg, hsl(0 0% 3% / 0.95), hsl(0 0% 3% / 0.9)); border-bottom: 1px solid hsl(40 20% 50% / 0.08); padding: 1.5rem; }
+    .mobile-menu.open { display: block; animation: fadeInUp 0.3s ease; }
+    .mobile-menu a { display: block; padding: 0.75rem 1rem; font-size: 1rem; color: var(--muted); border-radius: 0.5rem; }
+    .mobile-menu a:hover { color: var(--champagne); background: hsl(0 0% 100% / 0.03); }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-right, .nav-motto { display: none; }
+      .mobile-menu-btn { display: flex; }
+    }
+    @media (max-width: 640px) { .nav-motto { display: none; } }
+
+    /* Hero */
+    .hero { position: relative; overflow: hidden; padding: 6rem 0 2rem; }
+    .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.5; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, var(--bg), hsl(0 0% 3% / 0.7), var(--bg)); pointer-events: none; }
+    .hero-content { position: relative; z-index: 10; text-align: center; padding: 2.5rem 0; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.625rem; padding: 0.5rem 1.25rem; border-radius: 9999px; margin-bottom: 2.5rem; }
+    .hero-badge-dot { width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--gold); }
+    .hero-badge-text { font-size: 11px; font-weight: 500; color: var(--champagne); letter-spacing: 0.2em; text-transform: uppercase; }
+    .hero h1 { font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; line-height: 1.02; letter-spacing: -0.02em; margin-bottom: 2rem; max-width: 64rem; margin-left: auto; margin-right: auto; }
+    .hero-sub { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--muted); max-width: 42rem; margin: 0 auto 3.5rem; line-height: 1.7; letter-spacing: 0.03em; }
+    .hero-flow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1rem; font-size: 0.75rem; color: var(--muted); margin-bottom: 4rem; }
+    .flow-step { padding: 0.5rem 1rem; border-radius: 0.5rem; color: hsl(0 0% 72% / 0.8); letter-spacing: 0.1em; }
+    .flow-arrow { color: hsl(40 35% 65% / 0.4); font-size: 1.125rem; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 56rem; margin: 0 auto; }
+    @media (min-width: 768px) { .metrics-grid { grid-template-columns: repeat(4, 1fr); } }
+    .metric-value { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    .metric-label { font-size: 11px; color: var(--muted); margin-top: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .hero-capacity { font-size: 10px; color: hsl(0 0% 45% / 0.3); text-transform: uppercase; letter-spacing: 0.4em; margin-top: 1.5rem; }
+
+    /* Section */
+    .section { padding: 2.5rem 0 3.5rem; }
+    @media (min-width: 768px) { .section { padding: 3.5rem 0; } }
+    .section-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: hsl(40 35% 65% / 0.4); margin-bottom: 1rem; }
+    .section-title { font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+
+    /* Two-col grid */
+    .grid-2 { display: grid; gap: 3rem 4rem; align-items: center; }
+    @media (min-width: 1024px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+    /* Features grid */
+    .features-grid { display: grid; gap: 1.25rem; }
+    @media (min-width: 768px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
+    .feature-card { padding: 1.75rem; }
+    .feature-icon { width: 2.75rem; height: 2.75rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+    .feature-icon svg { width: 18px; height: 18px; color: hsl(38 30% 78% / 0.7); }
+    .feature-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.625rem; letter-spacing: 0.03em; }
+    .feature-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+    /* Code blocks */
+    .code-window { overflow: hidden; }
+    .code-chrome { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; border-bottom: 1px solid hsl(0 0% 12% / 0.5); }
+    .code-dot { width: 0.625rem; height: 0.625rem; border-radius: 50%; background: hsl(0 0% 90% / 0.1); }
+    .code-filename { font-size: 10px; color: var(--muted); margin-left: 0.5rem; }
+    .code-body { padding: 1.25rem; font-size: 13px; line-height: 1.6; min-height: 380px; position: relative; }
+    .code-line { display: flex; }
+    .code-linenum { width: 2rem; text-align: right; color: hsl(0 0% 90% / 0.15); margin-right: 1rem; user-select: none; font-size: 0.75rem; flex-shrink: 0; }
+    .code-cursor { display: inline-block; width: 2px; height: 15px; background: hsl(40 15% 88% / 0.8); margin-left: 1px; vertical-align: middle; animation: blink 0.8s step-end infinite; }
+
+    .tok-keyword { color: hsl(0 0% 65%); }
+    .tok-string { color: hsl(0 0% 55%); }
+    .tok-comment { color: hsl(0 0% 35%); }
+    .tok-variable { color: hsl(0 0% 82%); }
+    .tok-method { color: hsl(0 0% 90%); }
+    .tok-bracket { color: hsl(0 0% 50%); }
+    .tok-operator { color: hsl(0 0% 50%); }
+    .tok-property { color: hsl(0 0% 72%); }
+    .tok-plain { color: hsl(0 0% 58%); }
+
+    /* API Flow */
+    .api-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid hsl(0 0% 12% / 0.2); }
+    .api-row:last-child { border-bottom: none; }
+    .api-method { flex-shrink: 0; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 10px; font-weight: 700; }
+    .api-get { color: var(--silver); background: hsl(0 0% 72% / 0.1); }
+    .api-post { color: var(--platinum); background: hsl(40 15% 88% / 0.1); }
+    .api-path { color: hsl(0 0% 90% / 0.7); flex-shrink: 0; }
+    .api-meta { margin-left: auto; display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+    .api-time { color: hsl(0 0% 45% / 0.4); font-size: 12px; }
+    .api-status { padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 10px; color: var(--silver); background: hsl(0 0% 72% / 0.05); }
+    .api-loader { width: 12px; height: 12px; border: 1.5px solid hsl(0 0% 72% / 0.2); border-top-color: hsl(0 0% 72% / 0.6); border-radius: 50%; animation: spin 1s linear infinite; }
+    .api-executing { font-size: 10px; color: hsl(0 0% 45% / 0.3); }
+
+    /* Example interaction */
+    .interaction-card { text-align: left; padding: 1.5rem; margin-top: 2.5rem; }
+    .user-avatar { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--silver); flex-shrink: 0; }
+    .agent-avatar { width: 1.25rem; height: 1.25rem; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--platinum); }
+    .step-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0; border-bottom: 1px solid hsl(0 0% 12% / 0.2); }
+    .step-row:last-child { border-bottom: none; }
+    .checkmark { color: hsl(40 15% 88% / 0.7); }
+    .fulfilled-box { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+    .fulfilled-dot { width: 1.25rem; height: 1.25rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    /* Reasons */
+    .reason-row { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; margin-bottom: 0.75rem; }
+    .reason-icon { color: hsl(38 30% 78% / 0.5); flex-shrink: 0; }
+    .reason-text { font-size: 0.875rem; color: hsl(0 0% 90% / 0.8); letter-spacing: 0.03em; }
+    @media (min-width: 768px) { .reason-text { font-size: 1rem; } }
+
+    /* Activity feed */
+    .feed-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid hsl(0 0% 12% / 0.5); }
+    .feed-live-dot { width: 0.375rem; height: 0.375rem; border-radius: 50%; background: hsl(40 15% 88% / 0.6); animation: luxuryPulse 2s ease-in-out infinite; }
+    .feed-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.5rem; border-bottom: 1px solid hsl(0 0% 12% / 0.15); animation: fadeInUp 0.3s ease; }
+    .feed-status { width: 1.25rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .feed-time { font-size: 10px; color: hsl(0 0% 45% / 0.25); width: 4rem; flex-shrink: 0; }
+    .feed-flag { font-size: 0.75rem; flex-shrink: 0; }
+    .feed-text { font-size: 0.75rem; color: hsl(0 0% 72% / 0.6); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .feed-tag { font-size: 9px; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: hsl(0 0% 45% / 0.4); }
+    .feed-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.625rem 1rem; border-top: 1px solid hsl(0 0% 12% / 0.3); font-size: 9px; color: hsl(0 0% 45% / 0.2); }
+
+    /* Service network orbit */
+    .orbit-wrapper { position: relative; width: 100%; padding-bottom: 100%; }
+    .orbit-inner { position: absolute; inset: 0; }
+    .orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 7rem; height: 7rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; text-align: center; font-size: 0.75rem; color: var(--platinum); line-height: 1.3; }
+    .orbit-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88%; height: 88%; border-radius: 50%; border: 1px dashed hsl(0 0% 12% / 0.2); }
+    .orbit-node { position: absolute; transform: translate(-50%, -50%); z-index: 20; cursor: pointer; padding: 0.375rem 0.625rem; border-radius: 0.5rem; font-size: 10px; white-space: nowrap; transition: all 0.3s; }
+    .orbit-node.active { border: 1px solid hsl(40 15% 88% / 0.2); color: var(--platinum); }
+    .orbit-node:not(.active) { color: hsl(0 0% 72% / 0.7); }
+
+    /* CTA */
+    .cta-section { padding: 5rem 0 7rem; text-align: center; position: relative; }
+    .cta-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50rem; height: 37.5rem; border-radius: 50%; opacity: 0.03; background: radial-gradient(ellipse, hsl(40 30% 70%), transparent 70%); pointer-events: none; }
+
+    /* Footer */
+    footer { padding: 2.5rem 0; }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .footer-logo { width: 1.5rem; height: 1.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--champagne); }
+    .footer-copy { font-size: 11px; color: hsl(0 0% 45% / 0.3); letter-spacing: 0.15em; }
+
+    /* SVG icons */
+    .icon { display: inline-block; vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <div class="nav-brand">
+      <div class="nav-logo glass-card-luxury">A</div>
+      <span class="gradient-text-platinum" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.25rem;letter-spacing:0.05em;">Anvar AI</span>
+      <span class="nav-motto font-mono">From Intent to Execution</span>
+    </div>
+    <div class="nav-links">
+      <a href="#platform">Platform</a>
+      <a href="#features">Features</a>
+      <a href="#network">Network</a>
+      <a href="#use-cases">Use Cases</a>
+    </div>
+    <div class="nav-right">
+      <span style="font-size:0.75rem;color:hsl(0 0% 45%/0.5);letter-spacing:0.3em;text-transform:uppercase" class="font-mono">Coming Soon</span>
+      <a href="mailto:partnership@swiftreload.com" class="glass-card-luxury btn-investors">Investors</a>
+    </div>
+    <button class="mobile-menu-btn glass-card" onclick="toggleMobile()" id="mobileBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#platform" onclick="closeMobile()">Platform</a>
+  <a href="#features" onclick="closeMobile()">Features</a>
+  <a href="#network" onclick="closeMobile()">Network</a>
+  <a href="#use-cases" onclick="closeMobile()">Use Cases</a>
+  <div class="luxury-divider" style="margin:1rem 0"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;">
+    <span class="font-mono" style="font-size:0.75rem;color:hsl(0 0% 45%/0.5);letter-spacing:0.2em;text-transform:uppercase;">Coming Soon</span>
+    <a href="mailto:partnership@swiftreload.com" class="glass-card-luxury" style="padding:0.5rem 1.25rem;font-size:0.875rem;color:var(--champagne);letter-spacing:0.1em;text-transform:uppercase;" onclick="closeMobile()">Investors</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <canvas id="networkCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-content container">
+    <div class="hero-badge glass-card-luxury fade-in">
+      <div class="hero-badge-dot animate-luxury-pulse"></div>
+      <span class="hero-badge-text font-mono">Introducing Agentic Service Infrastructure</span>
+    </div>
+    <h1>
+      <span class="gradient-text-platinum">The Operating System for</span><br/>
+      <span class="gradient-text-shine">Agentic Services</span>
+    </h1>
+    <p class="hero-sub">The first Agentic Service Infrastructure platform enabling AI agents to discover, orchestrate, and execute real-world services through APIs — directly inside applications.</p>
+    <div class="hero-flow font-mono fade-in">
+      <span class="flow-step glass-card">Conversation</span><span class="flow-arrow">→</span>
+      <span class="flow-step glass-card">Intent</span><span class="flow-arrow">→</span>
+      <span class="flow-step glass-card">Agent</span><span class="flow-arrow">→</span>
+      <span class="flow-step glass-card">Execution</span><span class="flow-arrow">→</span>
+      <span class="flow-step glass-card">Fulfillment</span>
+    </div>
+    <div class="luxury-divider" style="max-width:28rem;margin:0 auto 3rem;"></div>
+    <div class="metrics-grid fade-in">
+      <div style="text-align:center;">
+        <div class="metric-value gradient-text-gold" id="counter-0">0+</div>
+        <div class="metric-label">Service Categories</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="metric-value gradient-text-gold" id="counter-1">0+</div>
+        <div class="metric-label">API Integrations Planned</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="metric-value gradient-text-gold" id="counter-2">0+</div>
+        <div class="metric-label">Countries Targeted</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="metric-value gradient-text-gold" id="counter-3">0%</div>
+        <div class="metric-label">Uptime Target</div>
+      </div>
+    </div>
+    <p class="hero-capacity font-mono fade-in">Designed Platform Capacity</p>
+  </div>
+</section>
+
+<!-- Category Section -->
+<section id="platform" class="section">
+  <div class="container grid-2">
+    <div>
+      <p class="section-label font-mono fade-in">A New Category</p>
+      <h2 class="section-title fade-in">
+        <span class="gradient-text-platinum">Introducing Agentic</span> <span class="gradient-text-shine">Service Infrastructure</span>
+      </h2>
+      <div class="fade-in" style="color:var(--muted);line-height:1.7;">
+        <p style="margin-bottom:1rem;">Agentic Service Infrastructure is a new technology layer that enables AI agents to perform real-world services through integrated APIs.</p>
+        <p style="margin-bottom:1rem;">Instead of redirecting users across applications and websites, agents can complete services directly inside software platforms.</p>
+        <p style="color:hsl(0 0% 90%/0.8);font-weight:500;">Anvar AI provides the infrastructure that makes this possible.</p>
+      </div>
+    </div>
+    <div class="fade-in">
+      <div class="glass-card-strong code-window glow-soft" id="codeTyping">
+        <div class="code-chrome">
+          <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+          <span class="code-filename font-mono">agent.ts</span>
+          <span style="margin-left:auto;font-size:10px;color:hsl(0 0% 45%/0.4)" class="font-mono">TypeScript</span>
+        </div>
+        <div class="code-body font-mono" id="codeBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem Section -->
+<section class="section">
+  <div class="container" style="max-width:48rem;text-align:center;">
+    <p class="section-label font-mono fade-in">The Problem</p>
+    <h2 class="section-title fade-in">
+      <span class="gradient-text-platinum">AI Can Answer Questions</span><br/>
+      <span style="color:var(--muted);">But It Cannot Execute Services</span>
+    </h2>
+    <div class="fade-in" style="color:var(--muted);font-size:1.125rem;line-height:1.7;">
+      <p style="margin-bottom:1rem;">Most AI assistants today can search, summarize, and recommend. However they cannot perform real services such as bookings, purchases, or activations.</p>
+      <p>Users still need to navigate multiple apps and websites. This limits the real commercial potential of AI.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Solution Section -->
+<section class="section">
+  <div class="container grid-2">
+    <div>
+      <p class="section-label font-mono fade-in">The Solution</p>
+      <h2 class="section-title fade-in">From AI Answers to <span class="gradient-text-shine">AI Execution</span></h2>
+      <p class="fade-in" style="color:var(--muted);font-size:1.125rem;line-height:1.7;margin-bottom:2rem;">Anvar AI provides the infrastructure layer that enables AI agents to discover services, orchestrate APIs, execute transactions, and deliver completed services inside applications.</p>
+      <div class="fade-in" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;">
+        <span class="glass-card font-mono" style="padding:0.375rem 0.75rem;font-size:0.75rem;color:var(--silver);">Intent</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 45%/0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span class="glass-card font-mono" style="padding:0.375rem 0.75rem;font-size:0.75rem;color:var(--platinum);">Agent</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 45%/0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span class="glass-card font-mono" style="padding:0.375rem 0.75rem;font-size:0.75rem;color:var(--fg);">Execution Engine</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 45%/0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span class="glass-card font-mono" style="padding:0.375rem 0.75rem;font-size:0.75rem;color:var(--silver);">Service APIs</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 45%/0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span class="glass-card font-mono" style="padding:0.375rem 0.75rem;font-size:0.75rem;color:var(--platinum);">Result</span>
+      </div>
+    </div>
+    <div class="fade-in">
+      <div class="glass-card-strong code-window glow-soft" id="apiFlow">
+        <div class="code-chrome">
+          <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+          <span class="code-filename font-mono">API Request Log</span>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:0.375rem;">
+            <div class="feed-live-dot"></div>
+            <span class="font-mono" style="font-size:10px;color:hsl(0 0% 45%/0.4);">Live</span>
+          </div>
+        </div>
+        <div class="font-mono" style="padding:1rem;font-size:12px;min-height:310px;" id="apiBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Platform Features -->
+<section id="features" class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p class="section-label font-mono fade-in">Capabilities</p>
+      <h2 class="section-title fade-in gradient-text-platinum">Platform Features</h2>
+    </div>
+    <div class="features-grid" id="featuresGrid"></div>
+  </div>
+</section>
+
+<!-- Service Network -->
+<section id="network" class="section">
+  <div class="container grid-2">
+    <div class="fade-in">
+      <div class="orbit-wrapper" style="max-width:600px;margin:0 auto;">
+        <div class="orbit-inner">
+          <div class="orbit-center glass-card-strong glow-silver font-mono">Anvar AI<br/>Engine</div>
+          <div class="orbit-ring"></div>
+          <div id="orbitNodes"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="section-label font-mono fade-in">Ecosystem</p>
+      <h2 class="section-title fade-in"><span class="gradient-text-platinum">The Anvar AI</span> <span class="gradient-text-shine">Service Network</span></h2>
+      <div class="fade-in" style="color:var(--muted);line-height:1.7;margin-bottom:2rem;">
+        <p style="margin-bottom:1rem;">Service providers publish APIs that intelligent agents can execute.</p>
+        <p>Applications integrating Anvar AI automatically gain access to a growing ecosystem of services.</p>
+      </div>
+      <div class="fade-in" id="providerStrip" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;"></div>
+      <div class="fade-in">
+        <div class="glass-card-strong code-window glow-soft" id="networkCode">
+          <div class="code-chrome">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename font-mono">integration.ts</span>
+            <span style="margin-left:auto;font-size:9px;color:hsl(40 15% 88%/0.5);padding:0.125rem 0.5rem;border-radius:0.25rem;background:hsl(40 15% 88%/0.05)" class="font-mono" id="networkLabel">Travel APIs</span>
+          </div>
+          <div class="font-mono" style="padding:1rem;font-size:12px;line-height:1.6;min-height:220px;" id="networkBody"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Example Interaction -->
+<section id="use-cases" class="section">
+  <div class="container" style="max-width:56rem;text-align:center;">
+    <h2 class="section-title fade-in"><span class="gradient-text-platinum">One Conversation.</span><br/><span class="gradient-text-shine">Real Services Executed.</span></h2>
+    <div class="glass-card-strong interaction-card glow-soft fade-in" id="interactionCard"></div>
+  </div>
+</section>
+
+<!-- Reasons to Believe -->
+<section class="section">
+  <div class="container">
+    <div class="luxury-divider" style="max-width:16rem;margin:0 auto 3.5rem;"></div>
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 class="section-title fade-in">Why Platforms Choose <span class="gradient-text-shine">Anvar AI</span></h2>
+    </div>
+    <div style="max-width:56rem;margin:0 auto;" id="reasonsList"></div>
+  </div>
+</section>
+
+<!-- Activity Feed -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <p class="section-label font-mono fade-in">Infrastructure</p>
+      <h2 class="fade-in gradient-text-platinum" style="font-size:clamp(1.25rem,3vw,1.875rem);font-weight:700;">Agent Activity Feed</h2>
+    </div>
+    <div style="max-width:56rem;margin:0 auto;" class="glass-card-strong glow-soft fade-in">
+      <div class="feed-header">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <div class="feed-live-dot"></div>
+          <span class="font-mono" style="font-size:10px;color:var(--muted);">live-agent-monitor</span>
+        </div>
+        <span class="font-mono" style="font-size:10px;color:hsl(0 0% 45%/0.3);">Global Network</span>
+      </div>
+      <div style="padding:0.75rem;min-height:280px;" id="activityFeed"></div>
+      <div class="feed-footer font-mono">
+        <span id="feedCompleted">0 completed</span>
+        <div style="display:flex;gap:1rem;"><span>avg 34ms</span><span>99.9% uptime</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vision -->
+<section class="section">
+  <div class="container" style="max-width:64rem;text-align:center;">
+    <p class="section-label font-mono fade-in">Vision</p>
+    <h2 class="section-title fade-in"><span class="gradient-text-platinum">The Future Interface for</span> <span class="gradient-text-shine">Digital Services</span></h2>
+    <div class="fade-in" style="color:var(--muted);font-size:1.125rem;line-height:1.7;">
+      <p style="margin-bottom:1rem;">AI agents will become the primary interface for interacting with digital services.</p>
+      <p style="margin-bottom:1rem;">Instead of navigating apps and websites, users will simply express their intent.</p>
+      <p style="color:hsl(0 0% 90%/0.8);font-weight:500;">Anvar AI provides the infrastructure that allows these agents to execute real-world services.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="container" style="position:relative;z-index:10;">
+    <div class="luxury-divider" style="max-width:16rem;margin:0 auto 3.5rem;"></div>
+    <h2 class="section-title fade-in gradient-text-platinum" style="font-size:clamp(1.5rem,4vw,3.5rem);">The Future of Agentic Applications</h2>
+    <p class="fade-in" style="color:var(--muted);font-size:1.125rem;margin-bottom:2.5rem;letter-spacing:0.03em;">Anvar AI transforms user intent into completed services.</p>
+    <div class="glass-card-luxury fade-in" style="display:inline-flex;align-items:center;gap:1rem;padding:1rem 2rem;">
+      <div style="width:0.5rem;height:0.5rem;border-radius:50%;background:hsl(40 35% 65%/0.6);" class="animate-luxury-pulse"></div>
+      <span class="font-mono" style="font-size:0.875rem;color:var(--champagne);letter-spacing:0.2em;text-transform:uppercase;">Coming Soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="luxury-divider" style="margin-bottom:2.5rem;"></div>
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo glass-card-luxury">A</div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:0.875rem;color:var(--muted);letter-spacing:0.05em;">Anvar AI</span>
+    </div>
+    <p class="footer-copy font-mono">© <script>document.write(new Date().getFullYear())</script> Anvar AI. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ─── Mobile menu ────────────────────────────────────────
+function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// ─── Intersection Observer for fade-in ─────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ─── Particle Network Canvas ───────────────────────────
+(function() {
+  const canvas = document.getElementById('networkCanvas');
+  const ctx = canvas.getContext('2d');
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  resize(); window.addEventListener('resize', resize);
+  const particles = Array.from({length: 80}, () => {
+    const r = canvas.getBoundingClientRect();
+    return { x: Math.random()*r.width, y: Math.random()*r.height, vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2, size: Math.random()*1.5+0.5, alpha: Math.random()*0.5+0.1, phase: Math.random()*Math.PI*2 };
+  });
+  let time = 0;
+  function animate() {
+    const r = canvas.getBoundingClientRect();
+    ctx.clearRect(0,0,r.width,r.height);
+    time += 0.003;
+    particles.forEach(p => { p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>r.width) p.vx*=-1; if(p.y<0||p.y>r.height) p.vy*=-1; });
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120) { ctx.strokeStyle=`rgba(200,200,200,${(1-d/120)*0.08})`; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.stroke(); }
+    }
+    particles.forEach(p => {
+      const pulse=Math.sin(time*2+p.phase)*0.3+0.7;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*6);
+      g.addColorStop(0,`rgba(220,220,220,${p.alpha*pulse})`); g.addColorStop(1,'rgba(220,220,220,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.size*6,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(230,230,230,${p.alpha*pulse})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ─── Animated Counters ─────────────────────────────────
+const counterData = [{value:50,suffix:'+'},{value:200,suffix:'+'},{value:70,suffix:'+'},{value:99.9,suffix:'%'}];
+function runCounters() {
+  counterData.forEach((c,i) => {
+    const el = document.getElementById('counter-'+i);
+    let current = 0; const step = c.value / 120;
+    const interval = setInterval(() => {
+      current += step;
+      if (current >= c.value) { current = c.value; clearInterval(interval); setTimeout(runCounters, 4000); }
+      el.textContent = (c.value === 99.9 ? current.toFixed(1) : Math.floor(current)) + c.suffix;
+    }, 1000/60);
+  });
+}
+const counterObserver = new IntersectionObserver(([e]) => { if(e.isIntersecting) { counterObserver.disconnect(); runCounters(); } }, {threshold:0.3});
+counterObserver.observe(document.getElementById('counter-0'));
+
+// ─── Code Typing Animation ─────────────────────────────
+const codeTokens = [
+  [["import","keyword"],[" { ","bracket"],["AnvarAgent","variable"],[" } ","bracket"],["from","keyword"],[' "@anvar/sdk"',"string"],[";\n","plain"]],
+  [["\n","plain"]],
+  [["const","keyword"],[" agent","variable"],[" = ","operator"],["new","keyword"],[" AnvarAgent","method"],["({\n","bracket"]],
+  [["  apiKey","property"],[": ","operator"],["process","variable"],[".","plain"],["env","property"],[".","plain"],["ANVAR_API_KEY","variable"],[",\n","plain"]],
+  [["  network","property"],[": ","operator"],['"global"',"string"],[",\n","plain"]],
+  [["  execution","property"],[": ","operator"],['"auto"',"string"],["\n","plain"]],
+  [["});\n","bracket"]],
+  [["\n","plain"]],
+  [["const","keyword"],[" result","variable"],[" = ","operator"],["await","keyword"],[" agent","variable"],[".","plain"],["execute","method"],["({\n","bracket"]],
+  [["  intent","property"],[": ","operator"],['"mobile internet in Japan, 7 days"',"string"],[",\n","plain"]],
+  [["  discover","property"],[": ","operator"],["true","keyword"],[",\n","plain"]],
+  [["  compare","property"],[": ","operator"],["true","keyword"],[",\n","plain"]],
+  [["  autoComplete","property"],[": ","operator"],["true","keyword"],["\n","plain"]],
+  [["});\n","bracket"]],
+  [["\n","plain"]],
+  [["// → Service activated successfully\n","comment"]],
+  [["console","variable"],[".","plain"],["log","method"],["(","bracket"],["result","variable"],[".","plain"],["status","property"],[");\n","bracket"]],
+  [['// "fulfilled"',"comment"]],
+];
+const flatCode = [];
+codeTokens.forEach(line => line.forEach(([text,type]) => { for(const ch of text) flatCode.push({char:ch,type}); }));
+
+function runCodeTyping() {
+  const body = document.getElementById('codeBody');
+  let i = 0;
+  body.innerHTML = '';
+  function type() {
+    if(i >= flatCode.length) { setTimeout(runCodeTyping, 3000); return; }
+    i++;
+    render(i);
+    const ch = flatCode[i-1];
+    let delay = ch.char === '\n' ? 100+Math.random()*150 : ch.char === ' ' ? 25+Math.random()*15 : 20+Math.random()*25;
+    if(Math.random()<0.02) delay += 150+Math.random()*200;
+    setTimeout(type, delay);
+  }
+  function render(count) {
+    const chars = flatCode.slice(0, count);
+    const lines = [[]]; chars.forEach(c => { if(c.char==='\n') lines.push([]); else lines[lines.length-1].push(c); });
+    let html = '';
+    lines.forEach((line, li) => {
+      html += '<div class="code-line"><span class="code-linenum">'+(li+1)+'</span><span>';
+      line.forEach(c => { html += '<span class="tok-'+c.type+'">'+esc(c.char)+'</span>'; });
+      if(li===lines.length-1 && count<flatCode.length) html += '<span class="code-cursor"></span>';
+      html += '</span></div>';
+    });
+    body.innerHTML = html;
+  }
+  setTimeout(type, 300);
+}
+const codeObserver = new IntersectionObserver(([e]) => { if(e.isIntersecting) { codeObserver.disconnect(); runCodeTyping(); } }, {threshold:0.2});
+codeObserver.observe(document.getElementById('codeTyping'));
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ─── API Flow Visualization ────────────────────────────
+const apiSteps = [
+  {method:"POST",path:"/v1/agent/init",status:200,time:"12ms"},
+  {method:"POST",path:"/v1/intent/parse",status:200,time:"45ms"},
+  {method:"GET",path:"/v1/services/discover",status:200,time:"89ms"},
+  {method:"POST",path:"/v1/orchestrate/compare",status:200,time:"34ms"},
+  {method:"POST",path:"/v1/execute/transaction",status:201,time:"156ms"},
+  {method:"GET",path:"/v1/fulfillment/status",status:200,time:"8ms"},
+];
+function runApiFlow() {
+  const body = document.getElementById('apiBody');
+  body.innerHTML = '';
+  let step = -1;
+  const durations = [800,900,1200,700,1400,500];
+  let cumulative = 400;
+  function showStep(idx) {
+    step = idx;
+    renderApi();
+  }
+  setTimeout(() => showStep(0), 400);
+  durations.forEach((dur,i) => { cumulative+=dur; setTimeout(() => showStep(i+1), cumulative); });
+  setTimeout(() => { renderApiComplete(); setTimeout(runApiFlow, 3000); }, cumulative+500);
+
+  function renderApi() {
+    let html = '';
+    for(let i=0;i<=Math.min(step,apiSteps.length-1);i++) {
+      const s = apiSteps[i]; const isProcessing = i===step; const isComplete = i<step;
+      const cls = s.method==='GET' ? 'api-get' : 'api-post';
+      html += '<div class="api-row"><span class="api-method font-mono '+cls+'">'+s.method+'</span>';
+      html += '<span class="api-path font-mono">'+esc(s.path)+'</span>';
+      html += '<div class="api-meta">';
+      if(isProcessing) html += '<div class="api-loader"></div><span class="api-executing font-mono">executing...</span>';
+      if(isComplete) html += '<span class="api-time font-mono">'+s.time+'</span><span class="api-status font-mono">'+s.status+'</span>';
+      html += '</div></div>';
+    }
+    body.innerHTML = html;
+  }
+  function renderApiComplete() {
+    renderApi();
+    body.innerHTML += '<div style="margin-top:0.75rem;padding-top:0.75rem;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:0.5rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="hsl(40 15% 88%/0.6)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:11px;color:hsl(40 15% 88%/0.6);" class="font-mono">All requests completed</span></div><span style="font-size:10px;color:hsl(0 0% 45%/0.3);" class="font-mono">6/6 · 344ms total</span></div>';
+  }
+}
+const apiObserver = new IntersectionObserver(([e]) => { if(e.isIntersecting) { apiObserver.disconnect(); runApiFlow(); } }, {threshold:0.2});
+apiObserver.observe(document.getElementById('apiFlow'));
+
+// ─── Features Grid ─────────────────────────────────────
+const features = [
+  {icon:'<path d="M6 15l6-6 6 6"/>',title:"Agentic Execution Engine",desc:"Automatically executes services through APIs with intelligent routing and failover."},
+  {icon:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',title:"Service Discovery Network",desc:"Agents discover and compare service providers across a global catalog in real time."},
+  {icon:'<line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',title:"API Orchestration Layer",desc:"Coordinates complex workflows across multiple services and providers seamlessly."},
+  {icon:'<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',title:"In-App Transaction Completion",desc:"Services complete directly inside applications — no redirects, no context switching."},
+  {icon:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',title:"Developer Integration Toolkit",desc:"SDKs and APIs enable easy integration with any software platform."},
+  {icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',title:"Trust & Compliance Layer",desc:"Enterprise-grade security, audit logging, and compliance controls built into every transaction."},
+];
+const fg = document.getElementById('featuresGrid');
+features.forEach((f,i) => {
+  const div = document.createElement('div');
+  div.className = 'glass-card card-hover feature-card fade-in';
+  div.innerHTML = '<div class="feature-icon glass-card-luxury"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="hsl(38 30% 78%/0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+f.icon+'</svg></div><h3 class="feature-title">'+f.title+'</h3><p class="feature-desc">'+f.desc+'</p>';
+  fg.appendChild(div);
+  observer.observe(div);
+});
+
+// ─── Service Network Orbit ─────────────────────────────
+const apis = ["Travel APIs","Connectivity APIs","Commerce APIs","Payment Gateways","Crypto & Wallet","Accommodation APIs","Logistics APIs","Information APIs","Operator APIs","Banking APIs","Exchange APIs"];
+const networkSnippets = [
+  {label:"Travel APIs",providers:["Emirates","ANA","Ryanair","Turkish Airlines","Singapore Air"],code:'<span class="tok-comment">// Search & book flights across 50+ airlines</span>\n<span class="tok-keyword">const</span> <span class="tok-variable">flights</span> <span class="tok-operator">=</span> <span class="tok-keyword">await</span> <span class="tok-variable">agent</span><span class="tok-plain">.</span><span class="tok-property">travel</span><span class="tok-plain">.</span><span class="tok-method">search</span><span class="tok-bracket">({</span>\n  <span class="tok-property">from</span><span class="tok-operator">:</span> <span class="tok-string">"London"</span><span class="tok-plain">,</span>\n  <span class="tok-property">to</span><span class="tok-operator">:</span> <span class="tok-string">"Tokyo"</span><span class="tok-plain">,</span>\n  <span class="tok-property">class</span><span class="tok-operator">:</span> <span class="tok-string">"business"</span>\n<span class="tok-bracket">});</span>\n\n<span class="tok-keyword">const</span> <span class="tok-variable">booking</span> <span class="tok-operator">=</span> <span class="tok-keyword">await</span> <span class="tok-variable">agent</span><span class="tok-plain">.</span><span class="tok-property">travel</span><span class="tok-plain">.</span><span class="tok-method">book</span><span class="tok-bracket">(</span><span class="tok-variable">flights</span><span class="tok-bracket">[</span><span class="tok-variable">0</span><span class="tok-bracket">]);</span>\n<span class="tok-comment">// → { pnr: "AV8X2K", airline: "ANA", seat: "2K" }</span>'},
+  {label:"Connectivity APIs",providers:["TrueMove H","Claro","KT Telecom","SIMALLO","HalloCall"],code:'<span class="tok-comment">// Activate eSIM for 190+ countries</span>\n<span class="tok-keyword">const</span> <span class="tok-variable">plan</span> <span class="tok-operator">=</span> <span class="tok-keyword">await</span> <span class="tok-variable">agent</span><span class="tok-plain">.</span><span class="tok-property">connectivity</span><span class="tok-plain">.</span><span class="tok-method">findPlan</span><span class="tok-bracket">({</span>\n  <span class="tok-property">country</span><span class="tok-operator">:</span> <span class="tok-string">"Japan"</span><span class="tok-plain">,</span>\n  <span class="tok-property">data</span><span class="tok-operator">:</span> <span class="tok-string">"10GB"</span><span class="tok-plain">,</span>\n  <span class="tok-property">duration</span><span class="tok-operator">:</span> <span class="tok-variable">7</span>\n<span class="tok-bracket">});</span>\n\n<span class="tok-keyword">const</span> <span class="tok-variable">esim</span> <span class="tok-operator">=</span> <span class="tok-keyword">await</span> <span class="tok-variable">agent</span><span class="tok-plain">.</span><span class="tok-property">connectivity</span><span class="tok-plain">.</span><span class="tok-method">activate</span><span class="tok-bracket">(</span><span class="tok-variable">plan</span><span class="tok-bracket">);</span>\n<span class="tok-comment">// → { qrCode: "data:image/png...", iccid: "893..." }</span>'},
+  {label:"Commerce APIs",providers:["Amazon","Apple Store","Best Buy","eBay","Alibaba"],code:'<span class="tok-comment">// Compare prices across 8+ marketplaces</span>\n<span class="tok-keyword">const</span> <span class="tok-variable">results</span> <span class="tok-operator">=</span> <span class="tok-keyword">await</span> <span class="tok-variable">agent</span><span class="tok-plain">.</span><span class="tok-property">commerce</span><span class="tok-plain">.</span><span class="tok-method">search</span><span class="tok-bracket">({</span>\n  <span class="tok-property">query</span><span class="tok-operator">:</span> <span class="tok-string">"Sony WH-1000XM5"</span><span class="tok-plain">,</span>\n  <span class="tok-property">maxPrice</span><span class="tok-operator">:</span> <span class="tok-variable">300</span><span class="tok-plain">,</span>\n  <span class="tok-property">currency</span><span class="tok-operator">:</span> <span class="tok-string">"USD"</span>\n<span class="tok-bracket">});</span>\n\n<span class="tok-keyword">const</span> <span class="tok-variable">order</span> <span class="tok-operator">=</span> <span class="tok-keyword">await</span> <span class="tok-variable">agent</span><span class="tok-plain">.</span><span class="tok-property">commerce</span><span class="tok-plain">.</span><span class="tok-method">purchase</span><span class="tok-bracket">(</span><span class="tok-variable">results</span><span class="tok-plain">.</span><span class="tok-property">best</span><span class="tok-bracket">);</span>\n<span class="tok-comment">// → { orderId: "SN-82910", delivery: "2-day" }</span>'},
+];
+let activeNetwork = 0;
+const orbitNodes = document.getElementById('orbitNodes');
+apis.forEach((api, i) => {
+  const angle = (i / apis.length) * Math.PI * 2 - Math.PI / 2;
+  const x = 50 + Math.cos(angle) * 44;
+  const y = 50 + Math.sin(angle) * 44;
+  const node = document.createElement('div');
+  node.className = 'orbit-node glass-card font-mono' + (i===0?' active node-pulse':'');
+  node.style.left = x + '%'; node.style.top = y + '%';
+  node.textContent = api;
+  node.dataset.idx = i;
+  node.onclick = () => { activeNetwork = i < networkSnippets.length ? i : 0; renderNetwork(); };
+  orbitNodes.appendChild(node);
+});
+function renderNetwork() {
+  const s = networkSnippets[activeNetwork] || networkSnippets[0];
+  document.getElementById('networkLabel').textContent = s.label;
+  document.getElementById('providerStrip').innerHTML = s.providers.map(p => '<span class="font-mono" style="font-size:10px;color:hsl(0 0% 45%/0.5);padding:0.25rem 0.5rem;border-radius:0.375rem;border:1px solid hsl(0 0% 12%/0.3);background:hsl(0 0% 90%/0.02);">'+p+'</span>').join('');
+  const lines = s.code.split('\n');
+  document.getElementById('networkBody').innerHTML = lines.map((l,i) => '<div class="code-line"><span class="code-linenum">'+(i+1)+'</span><span>'+l+'</span></div>').join('');
+  document.querySelectorAll('.orbit-node').forEach(n => { n.classList.toggle('active', parseInt(n.dataset.idx)===activeNetwork); n.classList.toggle('node-pulse', parseInt(n.dataset.idx)!==activeNetwork); });
+}
+renderNetwork();
+// Auto-cycle network snippets
+setInterval(() => { activeNetwork = (activeNetwork + 1) % networkSnippets.length; renderNetwork(); }, 6000);
+
+// ─── Example Interaction ───────────────────────────────
+const scenarios = [
+  {message:'"I need internet in Italy for one week."',steps:["5 plans discovered","Best option selected","Purchase completed","eSIM activated"],result:"Service fulfilled — eSIM delivered inside the app."},
+  {message:'"Book a flight from London to Dubai, March 14."',steps:["12 airlines scanned","Best fare selected","Payment processed","Boarding pass issued"],result:"Flight booked — Emirates EK-002, Seat 24A."},
+  {message:'"Find a boutique hotel in Paris, March 20–22."',steps:["312 properties searched","Top match found","Reservation secured","Confirmation sent"],result:"Hotel booked — Hôtel du Petit Moulin, 2 nights."},
+  {message:'"Buy Sony WH-1000XM5 headphones under $300."',steps:["6 marketplaces scanned","Best price found","Order placed","Tracking generated"],result:"Order confirmed — arriving March 10, express."},
+  {message:'"Swap 0.5 ETH to USDT on the best DEX."',steps:["3 DEX rates compared","Best route selected","Transaction signed","Swap confirmed"],result:"Swap complete — 1,710.25 USDT received."},
+];
+let scenarioIdx = 0;
+function runInteraction() {
+  const card = document.getElementById('interactionCard');
+  const s = scenarios[scenarioIdx];
+  scenarioIdx = (scenarioIdx + 1) % scenarios.length;
+  card.innerHTML = '';
+
+  // User message
+  const userRow = document.createElement('div');
+  userRow.style.cssText = 'display:flex;gap:0.75rem;align-items:flex-start;';
+  userRow.innerHTML = '<div class="user-avatar glass-card">U</div><div class="font-mono" style="font-size:0.875rem;min-height:24px;" id="userMsg"></div>';
+  card.appendChild(userRow);
+
+  // Type user message
+  let ci = 0;
+  const msgEl = userRow.querySelector('#userMsg');
+  const typeUser = setInterval(() => {
+    ci++;
+    if(ci >= s.message.length) { clearInterval(typeUser); msgEl.innerHTML = esc(s.message); setTimeout(showAgent, 500); return; }
+    msgEl.innerHTML = esc(s.message.slice(0,ci)) + '<span class="code-cursor"></span>';
+  }, 45);
+
+  function showAgent() {
+    const agentDiv = document.createElement('div');
+    agentDiv.style.cssText = 'padding-left:2.25rem;margin-top:1.25rem;';
+    agentDiv.innerHTML = '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;"><div class="agent-avatar glass-card">A</div><span class="font-mono" style="font-size:11px;color:var(--muted);">anvar-agent executing...</span></div>';
+    card.appendChild(agentDiv);
+
+    let stepIdx = 0;
+    const stepsContainer = document.createElement('div');
+    agentDiv.appendChild(stepsContainer);
+
+    function showStep() {
+      if(stepIdx >= s.steps.length) { showResult(); return; }
+      const row = document.createElement('div');
+      row.className = 'step-row';
+      row.innerHTML = '<div class="api-loader"></div><span class="font-mono" style="font-size:0.875rem;color:hsl(0 0% 90%/0.8);flex:1;">'+esc(s.steps[stepIdx])+'</span><span class="font-mono" style="font-size:10px;color:hsl(0 0% 45%/0.3);">processing</span>';
+      stepsContainer.appendChild(row);
+      const idx = stepIdx;
+      setTimeout(() => {
+        row.innerHTML = '<svg class="checkmark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="hsl(40 15% 88%/0.7)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span class="font-mono" style="font-size:0.875rem;color:hsl(0 0% 72%/0.5);flex:1;">'+esc(s.steps[idx])+'</span><span class="font-mono" style="font-size:10px;color:hsl(0 0% 45%/0.25);">done</span>';
+        stepIdx++;
+        setTimeout(showStep, 200);
+      }, 1000+Math.random()*500);
+    }
+    setTimeout(showStep, 600);
+
+    function showResult() {
+      const res = document.createElement('div');
+      res.className = 'fulfilled-box glass-card';
+      res.innerHTML = '<div class="fulfilled-dot glass-card-strong"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="hsl(40 15% 88%)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><span class="font-mono" style="color:hsl(40 15% 88%/0.8);">'+esc(s.result)+'</span>';
+      agentDiv.appendChild(res);
+      setTimeout(runInteraction, 3000);
+    }
+  }
+}
+const interactionObserver = new IntersectionObserver(([e]) => { if(e.isIntersecting) { interactionObserver.disconnect(); runInteraction(); } }, {threshold:0.2});
+interactionObserver.observe(document.getElementById('interactionCard'));
+
+// ─── Reasons to Believe ────────────────────────────────
+const reasons = [
+  {icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',text:"Built for real service execution, not just AI conversation"},
+  {icon:'<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',text:"Infrastructure designed for SaaS platforms"},
+  {icon:'<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',text:"In-app transaction completion"},
+  {icon:'<circle cx="12" cy="5" r="3"/><line x1="12" y1="8" x2="12" y2="16"/><circle cx="6" cy="19" r="3"/><circle cx="18" cy="19" r="3"/><line x1="6" y1="16" x2="12" y2="16"/><line x1="18" y1="16" x2="12" y2="16"/>',text:"Service network creates powerful network effects"},
+  {icon:'<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',text:"Agentic workflows convert user intent into revenue-generating services"},
+];
+const rl = document.getElementById('reasonsList');
+reasons.forEach((r,i) => {
+  const div = document.createElement('div');
+  div.className = 'reason-row glass-card card-hover fade-in';
+  div.innerHTML = '<svg class="reason-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+r.icon+'</svg><span class="reason-text">'+r.text+'</span>';
+  rl.appendChild(div);
+  observer.observe(div);
+});
+
+// ─── Activity Feed ─────────────────────────────────────
+const feedEntries = [
+  {text:"Agent executed eSIM activation",location:"Italy",flag:"🇮🇹",service:"Connectivity"},
+  {text:"Agent completed flight booking",location:"Dubai",flag:"🇦🇪",service:"Travel"},
+  {text:"Agent processed digital goods purchase",location:"Brazil",flag:"🇧🇷",service:"Commerce"},
+  {text:"Agent activated telecom service",location:"Germany",flag:"🇩🇪",service:"Connectivity"},
+  {text:"Agent executed API workflow",location:"Singapore",flag:"🇸🇬",service:"Platform"},
+  {text:"Agent completed hotel reservation",location:"Tokyo",flag:"🇯🇵",service:"Travel"},
+  {text:"Agent processed payment",location:"United Kingdom",flag:"🇬🇧",service:"Finance"},
+  {text:"Agent activated connectivity service",location:"France",flag:"🇫🇷",service:"Connectivity"},
+  {text:"Agent completed marketplace order",location:"United States",flag:"🇺🇸",service:"Commerce"},
+  {text:"Agent executed insurance activation",location:"Australia",flag:"🇦🇺",service:"Finance"},
+  {text:"Agent processed subscription renewal",location:"South Korea",flag:"🇰🇷",service:"Platform"},
+  {text:"Agent completed car rental booking",location:"Spain",flag:"🇪🇸",service:"Travel"},
+];
+let feedIdx = 0, feedItems = [], completedCount = 0;
+const feedEl = document.getElementById('activityFeed');
+function addFeedEntry() {
+  const entry = feedEntries[feedIdx % feedEntries.length]; feedIdx++;
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const fullText = entry.text + ' — ' + entry.location;
+  const id = Date.now();
+  feedItems.unshift({...entry,time,id,fullText,status:'typing',chars:0});
+  if(feedItems.length>7) feedItems.pop();
+  // Type it
+  let ci = 0;
+  const typeI = setInterval(() => {
+    ci++;
+    const item = feedItems.find(f => f.id===id);
+    if(!item) { clearInterval(typeI); return; }
+    item.chars = ci;
+    if(ci >= fullText.length) { clearInterval(typeI); item.status='processing'; renderFeed(); setTimeout(() => { item.status='done'; completedCount++; renderFeed(); }, 800); }
+    renderFeed();
+  }, 30);
+}
+function renderFeed() {
+  feedEl.innerHTML = feedItems.map(f => {
+    const statusHtml = f.status==='typing' ? '<span class="code-cursor" style="height:14px;"></span>' : f.status==='processing' ? '<div class="api-loader"></div>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="hsl(40 15% 88%/0.5)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    const textHtml = f.status==='typing' ? esc(f.fullText.slice(0,f.chars))+'<span class="code-cursor" style="height:12px;"></span>' : esc(f.fullText);
+    const tagHtml = f.status==='done' ? '<span class="feed-tag glass-card font-mono">'+f.service+'</span>' : f.status==='processing' ? '<span class="font-mono" style="font-size:9px;color:hsl(0 0% 45%/0.25);">executing</span>' : '';
+    return '<div class="feed-row"><div class="feed-status">'+statusHtml+'</div><span class="feed-time font-mono">'+f.time+'</span><span class="feed-flag">'+f.flag+'</span><span class="feed-text font-mono">'+textHtml+'</span>'+tagHtml+'</div>';
+  }).join('');
+  document.getElementById('feedCompleted').textContent = completedCount+' completed';
+}
+const feedObserver = new IntersectionObserver(([e]) => {
+  if(e.isIntersecting) { feedObserver.disconnect(); setTimeout(addFeedEntry, 300); setInterval(addFeedEntry, 3500); }
+}, {threshold:0.2});
+feedObserver.observe(feedEl);
+</script>
+</body>
+</html>
